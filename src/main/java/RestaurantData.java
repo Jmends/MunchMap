@@ -1,6 +1,7 @@
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import java.util.Random;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
@@ -23,23 +24,26 @@ public class RestaurantData {
 
             int responseCode = conn.getResponseCode();
 
-            if(responseCode != 200){
-                throw new RuntimeException("Response code: " + responseCode);
-            } else{
+            if (responseCode != 200) {
+                throw new RuntimeException("ERROR \nResponse code: " + responseCode);
+            } else {
+
                 String inline = "";
                 Scanner scan = new Scanner(url.openStream());
 
-                while(scan.hasNext()){
+                //writes all json data into a string
+                while (scan.hasNext()) {
                     inline += scan.nextLine();
                 }
                 scan.close();
 
+                //parse string into a json object
                 JSONParser parse = new JSONParser();
                 JSONObject data_obj = (JSONObject) parse.parse(inline);
 
                 JSONArray results = (JSONArray) data_obj.get("results");
 
-                if(results != null && !results.isEmpty()){
+                if (results != null && !results.isEmpty()) {
                     JSONObject firstResult = (JSONObject) results.get(0);
 
                     JSONObject geometry = (JSONObject) firstResult.get("geometry");
@@ -55,7 +59,52 @@ public class RestaurantData {
             System.out.println(e.getMessage());
         }
 
-        return coordinates; //place holder
+        return coordinates;
+    }
+
+    public static String getResaurant(double[] coordinates, int radius) {
+        try {
+            String urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
+                    "?location" + coordinates[0] + coordinates[1] + "&radius=" + radius +
+                    "&type=restaurant" + "&key=" + API_KEY;
+
+            URL url = new URL(urlString);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.connect();
+
+            int responseCode = conn.getResponseCode();
+            if (responseCode != 200) {
+                throw new RuntimeException("ERROR \nResponse code: " + responseCode);
+            } else {
+
+                String inline = "";
+                Scanner scan = new Scanner(url.openStream());
+
+                while(scan.hasNext()){
+                    inline += scan.nextLine();
+                }
+
+                scan.close();
+
+                JSONParser parse = new JSONParser();
+                JSONObject data_obj = (JSONObject) parse.parse(inline);
+
+                JSONArray results = (JSONArray) data_obj.get("resluts");
+
+                if(results.isEmpty() ){
+                    return "No resturants found";
+                }
+
+
+
+            }
+        } catch (Exception e) {
+            e.getMessage();
+        }
+
+        //return "name: " + name + "\nAddress: " + address;
+        return "THIS IS A PLACEHOLDER"; // just a placeholder until I come back :|
     }
 
 }
