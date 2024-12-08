@@ -69,7 +69,7 @@ public class RestaurantData {
     public static String getRetsaurant(double[] coordinates, int radius) {
         try {
             String urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
-                    "?location" + coordinates[0] + coordinates[1] + "&radius=" + radius +
+                    "?location=" + coordinates[0] + "," + coordinates[1] + "&radius=" + radius +
                     "&type=restaurant" + "&key=" + API_KEY;
 
             URL url = new URL(urlString);
@@ -78,6 +78,7 @@ public class RestaurantData {
             conn.connect();
 
             int responseCode = conn.getResponseCode();
+            //response code must be 200
             if (responseCode != 200) {
                 throw new RuntimeException("ERROR \nResponse code: " + responseCode);
             } else {
@@ -94,7 +95,7 @@ public class RestaurantData {
                 JSONParser parse = new JSONParser();
                 JSONObject data_obj = (JSONObject) parse.parse(inline);
 
-                JSONArray results = (JSONArray) data_obj.get("resluts");
+                JSONArray results = (JSONArray) data_obj.get("results");
 
                 if (results.isEmpty()) {
                     return "No resturants found";
@@ -105,18 +106,24 @@ public class RestaurantData {
                 JSONObject resturant = (JSONObject) results.get(randomIndex);
 
                 String name = (String) resturant.get("name");
-                String address = (String) resturant.get("Vicinity");
+                String address = (String) resturant.get("vicinity");
                 Double rating = (Double) resturant.get("rating");
+                String ratingString = rating != null ? rating.toString() : "No rating available";
 
 
-                return "name: " + name + "\nAddress: " + address + "\nRating: "
-                        + (rating != null ? rating + "/5" : "No rating available");
+                return "name: " + name + "\nAddress: " + address + "\nRating: " + ratingString + "/5";
 
             }
         } catch (Exception e) {
             return e.getMessage();
         }
 
+    }
+
+    //converts miles to meters
+    // api requires radius to be in miles
+    public static int convertToMeters(int miles) {
+        return (int) (miles * 1609.34);
     }
 
 }
