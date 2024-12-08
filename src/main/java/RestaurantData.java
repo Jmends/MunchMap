@@ -1,6 +1,7 @@
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
 import java.util.Random;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -10,7 +11,7 @@ public class RestaurantData {
     //api key
     private static final String API_KEY = System.getenv("GOOGLE_API");
 
-    public static double[] getCoordinates(String address, String api) {
+    public static double[] getCoordinates(String address) {
         double[] coordinates = new double[2];
         try {
 
@@ -52,6 +53,9 @@ public class RestaurantData {
                     double lat = (double) location.get("lat");
                     double lng = (double) location.get("lng");
 
+                    coordinates[0] = lat;
+                    coordinates[1] = lng;
+
                 }
             }
 
@@ -62,7 +66,7 @@ public class RestaurantData {
         return coordinates;
     }
 
-    public static String getResaurant(double[] coordinates, int radius) {
+    public static String getRetsaurant(double[] coordinates, int radius) {
         try {
             String urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
                     "?location" + coordinates[0] + coordinates[1] + "&radius=" + radius +
@@ -81,7 +85,7 @@ public class RestaurantData {
                 String inline = "";
                 Scanner scan = new Scanner(url.openStream());
 
-                while(scan.hasNext()){
+                while (scan.hasNext()) {
                     inline += scan.nextLine();
                 }
 
@@ -92,19 +96,27 @@ public class RestaurantData {
 
                 JSONArray results = (JSONArray) data_obj.get("resluts");
 
-                if(results.isEmpty() ){
+                if (results.isEmpty()) {
                     return "No resturants found";
                 }
 
+                //gets a random restaurant
+                int randomIndex = (int) (Math.random() * results.size());
+                JSONObject resturant = (JSONObject) results.get(randomIndex);
 
+                String name = (String) resturant.get("name");
+                String address = (String) resturant.get("Vicinity");
+                Double rating = (Double) resturant.get("rating");
+
+
+                return "name: " + name + "\nAddress: " + address + "\nRating: "
+                        + (rating != null ? rating + "/5" : "No rating available");
 
             }
         } catch (Exception e) {
-            e.getMessage();
+            return e.getMessage();
         }
 
-        //return "name: " + name + "\nAddress: " + address;
-        return "THIS IS A PLACEHOLDER"; // just a placeholder until I come back :|
     }
 
 }
