@@ -111,7 +111,7 @@ public class RestaurantData {
                 String ratingString = rating != null ? rating.toString() : "No rating available";
 
 
-                return "name: " + name + "\nAddress: " + address + "\nRating: " + ratingString + "/5";
+                return "Name: " + name + "\nAddress: " + address + "\nRating: " + ratingString + "/5";
 
             }
         } catch (Exception e) {
