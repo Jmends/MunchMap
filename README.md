@@ -3,7 +3,6 @@
 Munch Map is a Java-based application that helps users find random restaurants in their area based on a given address and radius. The program uses the Google Maps API to get geolocation coordinates and search for nearby restaurants.
 
 ## Features
-https://www.twitch.tv/yourragegaming
 - Allows the user to enter an address and a search radius.
 - Retrieves the geolocation coordinates of the address using the Google Maps Geocoding API.
 - Finds restaurants within the specified radius using the Google Places API.
