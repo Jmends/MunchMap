@@ -83,17 +83,17 @@ public class RestaurantData {
                 throw new RuntimeException("ERROR \nResponse code: " + responseCode);
             } else {
 
-                String inline = "";
+                StringBuilder inline = new StringBuilder();
                 Scanner scan = new Scanner(url.openStream());
 
                 while (scan.hasNext()) {
-                    inline += scan.nextLine();
+                    inline.append(scan.nextLine());
                 }
 
                 scan.close();
 
                 JSONParser parse = new JSONParser();
-                JSONObject data_obj = (JSONObject) parse.parse(inline);
+                JSONObject data_obj = (JSONObject) parse.parse(inline.toString());
 
                 JSONArray results = (JSONArray) data_obj.get("results");
 
@@ -108,6 +108,8 @@ public class RestaurantData {
                 String name = (String) resturant.get("name");
                 String address = (String) resturant.get("vicinity");
                 Double rating = (Double) resturant.get("rating");
+
+                // if restaurant does not have rating
                 String ratingString = rating != null ? rating.toString() : "No rating available";
 
 
