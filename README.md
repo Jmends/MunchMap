@@ -26,8 +26,8 @@ Before running the application, ensure that you have the following:
 2. Compile and run the project:
 
    ```bash
-   javac Main.java RestaurantData.java
-   java Main
+   javac app.Main.java model.RestaurantData.java
+   java app.Main
    ```
 
 3. Set your Google API key as an environment variable. In Linux/MacOS:
@@ -63,7 +63,7 @@ y
 
 Welcome to Munch Map
 Enter your current address to get a random Restaurant in your area (press q to quit)
-123 Main St, New York
+123 app.Main St, New York
 Now choose a radius (5, 10, 15)
 10
 Name: Pizza Place
@@ -73,15 +73,15 @@ Rating: 4.2/5
 
 ## Methods
 
-### `RestaurantData.getCoordinates(String address)`
+### `model.RestaurantData.getCoordinates(String address)`
 
 Fetches the latitude and longitude of the provided address using the Google Geocoding API.
 
-### `RestaurantData.getRetsaurant(double[] coordinates, int radius)`
+### `model.RestaurantData.getRetsaurant(double[] coordinates, int radius)`
 
 Finds a random restaurant within the specified radius using the Google Places API.
 
-### `RestaurantData.convertToMeters(int miles)`
+### `model.RestaurantData.convertToMeters(int miles)`
 
 Converts the provided radius in miles to meters, as required by the Google Places API.
 
