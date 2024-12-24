@@ -44,32 +44,17 @@ Before running the application, ensure that you have the following:
 
 ## Usage
 
-1. Start the program by pressing `y` when prompted.
+1. Launch the application
 
-2. Enter your current address to find a random restaurant in your area.
+2. Enter an address in the input field.
 
-3. Choose a radius (in miles) for the search (e.g., 5, 10, 15).
+3. Select a radius from the dropdown menu.
 
-4. The program will display a random restaurant within the specified radius, including its name, address, and rating.
+4. Click "Find Restaurant" to receive a random restaurant suggestion.
 
-5. To exit the program, type `q` when prompted for the address.
+5. The application will display  the resturants name, address, and rating.
 
-## Example
 
-```
-Welcome!
-Press y to begin
-y
-
-Welcome to Munch Map
-Enter your current address to get a random Restaurant in your area (press q to quit)
-123 app.Main St, New York
-Now choose a radius (5, 10, 15)
-10
-Name: Pizza Place
-Address: 456 Elm St, New York
-Rating: 4.2/5
-```
 
 ## Methods
 
